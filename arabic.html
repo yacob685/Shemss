@@ -48,6 +48,16 @@
 
         .stage.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 
+        /* Bouncing animation for the final stage card */
+        .stage#p5.active .card-details {
+            animation: bounce 2.2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
         .gold-gradient {
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -139,6 +149,10 @@
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
+    <audio id="ambientSound" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -190,6 +204,7 @@
 
         function launchExperience() {
             const music = document.getElementById('bgMusic');
+            const ambient = document.getElementById('ambientSound');
             music.play();
             
             document.getElementById('overlay').style.opacity = '0';
@@ -202,13 +217,22 @@
                 document.getElementById(stages[current]).classList.remove('active');
                 current++;
                 
-                // If we reach the last stage (p5), stop the music
                 if (current === stages.length - 1) {
                     clearInterval(timer);
-                    // Smoothly fade out the music or stop it
-                    music.pause();
+                    
+                    // Cross-fade to ambient sound
+                    ambient.volume = 0;
+                    ambient.play();
+                    let fade = setInterval(() => {
+                        if (music.volume > 0.1) {
+                            music.volume -= 0.1;
+                            if(ambient.volume < 0.5) ambient.volume += 0.05;
+                        } else {
+                            music.pause();
+                            clearInterval(fade);
+                        }
+                    }, 200);
                 }
-                
                 document.getElementById(stages[current]).classList.add('active');
             }, 6000);
         }
