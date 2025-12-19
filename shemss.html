@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Journey of Shams | 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --light-gold: #fcf6ba;
+            --dark: #000000;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            background: var(--dark); color: white;
+            font-family: 'Amiri', serif; overflow: hidden;
+        }
+
+        #canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            z-index: 1000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .envelope-icon {
+            font-size: 4rem; cursor: pointer; transition: 0.5s;
+            filter: drop-shadow(0 0 15px var(--gold));
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .stage-wrapper {
+            position: relative; z-index: 10; width: 100%; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .stage {
+            position: absolute; text-align: center; width: 85%; max-width: 700px;
+            opacity: 0; transform: translateY(100px) scale(0.8);
+            transition: all 2.5s cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: none;
+        }
+
+        .stage.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+        .gold-gradient {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .name-hero { font-size: 7rem; font-family: 'Reem Kufi', sans-serif; line-height: 1.2; }
+        .bismillah-hero { font-size: 2.5rem; color: var(--gold); margin-bottom: 20px; }
+        .emoji-burst { font-size: 4rem; display: block; margin: 25px 0; filter: drop-shadow(0 0 10px gold); }
+
+        .photo-reveal {
+            width: 280px; height: 280px; margin: 0 auto 40px;
+            border: 3px solid var(--gold); border-radius: 20px;
+            transform: rotate(-3deg); overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transition: 1s;
+            background: #1a1a1a;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .photo-reveal img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .card-details {
+            background: var(--glass); backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 40px; border-radius: 2px; position: relative;
+        }
+
+        .card-details::before {
+            content: ''; position: absolute; top: -10px; left: -10px; 
+            right: -10px; bottom: -10px; border: 1px solid var(--gold); opacity: 0.3;
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay" onclick="launchExperience()">
+        <div class="envelope-icon">✉️</div>
+        <h2 style="color: var(--gold); font-family: 'Cinzel Decorative'; letter-spacing: 5px; margin-top: 30px;">INSPIRATION</h2>
+        <p style="color: white; opacity: 0.6; font-size: 0.9rem; margin-top: 10px;">إضغطي للبدء</p>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="stage-wrapper">
+        <div class="stage active" id="p1">
+            <div class="bismillah-hero">﷽</div>
+            <h1 class="gold-gradient" style="font-size: 3rem;">وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ</h1>
+            <p style="font-size: 1.8rem; margin-top: 20px; font-style: italic;">الحمد لله الذي بنعمته تتم الصالحات ✨</p>
+        </div>
+
+        <div class="stage" id="p2">
+            <span class="emoji-burst">🎓📜</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">حصاد السنين.. وفرحة النجاح</h2>
+            <p style="font-size: 1.4rem; color: #ccc;">بكل فخر واعتزاز، نعلن تخرج ابنتنا الغالية</p>
+        </div>
+
+        <div class="stage" id="p3">
+            <div class="photo-reveal" id="photoFrame"></div>
+            <h1 class="name-hero gold-gradient">شمس</h1>
+            <p style="font-size: 1.6rem; letter-spacing: 2px;">أشرقتِ فأبدعتِ 🌟</p>
+        </div>
+
+        <div class="stage" id="p4">
+            <span class="emoji-burst">🧁🍮☕</span>
+            <h2 style="font-size: 2.5rem;">حلاوة الإنجاز</h2>
+            <p style="font-size: 1.4rem; margin-bottom: 30px;">فرحتنا لا تكتمل إلا بوجودكم، نتشرف بدعوتكم لتناول التحلية</p>
+            <span class="emoji-burst">✨🎈✨</span>
+        </div>
+
+        <div class="stage" id="p5">
+            <div class="card-details">
+                <h3 class="gold-gradient" style="font-size: 2rem; margin-bottom: 20px;">موعدنا المنتظر</h3>
+                <p style="font-size: 1.8rem; font-family: 'Cinzel Decorative';">21 . 12 . 2025</p>
+                <p style="font-size: 1.5rem; color: var(--gold);">6:00 PM</p>
+                <hr style="margin: 20px auto; width: 50%; opacity: 0.2;">
+                <p style="font-family: 'Cinzel Decorative'; font-size: 0.9rem; color: #888;">66 OLIVERI CRESCENT, GREEN VALLEY</p>
+            </div>
+            <p style="margin-top: 30px; font-size: 1.2rem;">دامت دياركم بالافراح عامرة 🤍</p>
+        </div>
+    </div>
+
+    <audio id="bgMusic">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+
+        const MY_IMAGE_URL = "download.jpg"; 
+
+        function setupImage() {
+            const frame = document.getElementById('photoFrame');
+            if (MY_IMAGE_URL) {
+                frame.innerHTML = `<img src="${MY_IMAGE_URL}" alt="Shams Graduation">`;
+            }
+        }
+
+        window.onload = setupImage;
+        
+        class Spark {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3;
+                this.speed = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.5 ? '#d4af37' : '#ffffff';
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.4;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            move() {
+                this.y -= this.speed;
+                if (this.y < 0) this.y = canvas.height;
+            }
+        }
+
+        for(let i=0; i<150; i++) particles.push(new Spark());
+
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            particles.forEach(p => { p.move(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function launchExperience() {
+            const music = document.getElementById('bgMusic');
+            music.play();
+            
+            document.getElementById('overlay').style.opacity = '0';
+            document.getElementById('overlay').style.pointerEvents = 'none';
+
+            let stages = ['p1', 'p2', 'p3', 'p4', 'p5'];
+            let current = 0;
+
+            const timer = setInterval(() => {
+                document.getElementById(stages[current]).classList.remove('active');
+                current++;
+                
+                // If we reach the last stage (p5), stop the music
+                if (current === stages.length - 1) {
+                    clearInterval(timer);
+                    // Smoothly fade out the music or stop it
+                    music.pause();
+                }
+                
+                document.getElementById(stages[current]).classList.add('active');
+            }, 6000);
+        }
+    </script>
+</body>
+</html>
