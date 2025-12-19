@@ -18,7 +18,6 @@
             overflow: hidden;
         }
 
-        /* Video-like Background */
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
@@ -41,44 +40,54 @@
 
         .side:hover { flex: 1.5; background: rgba(212, 175, 55, 0.05); }
 
-        .side::after {
+        .side:first-child::after {
             content: ''; position: absolute; height: 60%; width: 1px;
             background: linear-gradient(to bottom, transparent, var(--gold), transparent);
             right: 0; opacity: 0.3;
         }
 
-        /* Suggested Aesthetic Image */
+        /* The Box for your Uploaded Image */
         .visual-circle {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 1px solid var(--gold); margin-bottom: 30px;
-            background: url('https://images.unsplash.com/photo-1523050853064-8504f2f4e32d?q=80&w=500') center/cover;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            filter: sepia(0.5) brightness(0.8);
-            transition: 0.5s;
+            width: 220px; height: 220px; border-radius: 50%;
+            border: 2px solid var(--gold); margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
+            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .side:hover .visual-circle { transform: scale(1.1); filter: sepia(0) brightness(1); }
+        .visual-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This is the "filling" - it clips the image to a perfect circle */
+            filter: sepia(0.4) brightness(0.8);
+            transition: 0.6s ease;
+        }
+
+        .side:hover .visual-circle img {
+            filter: sepia(0) brightness(1);
+            transform: scale(1.1);
+        }
 
         .btn-title {
             font-family: 'Cinzel Decorative', serif; font-size: 2rem;
             color: var(--gold); letter-spacing: 5px; margin-bottom: 10px;
         }
 
-        .btn-title.ar { font-family: 'Amiri', serif; letter-spacing: 0; font-size: 2.5rem; }
+        .btn-title.ar { font-family: 'Amiri', serif; letter-spacing: 0; font-size: 2.8rem; }
 
-        .sub-text { font-size: 0.8rem; letter-spacing: 3px; opacity: 0.6; text-transform: uppercase; }
+        .sub-text { font-size: 0.8rem; letter-spacing: 4px; opacity: 0.6; text-transform: uppercase; }
 
-        /* Floating Sparkles */
         .sparkle {
-            position: absolute; width: 2px; height: 2px; background: var(--gold);
+            position: absolute; width: 1.5px; height: 1.5px; background: var(--gold);
             border-radius: 50%; pointer-events: none; opacity: 0;
-            animation: rise 5s infinite ease-in;
+            animation: rise 6s infinite ease-in;
         }
 
         @keyframes rise {
-            0% { transform: translateY(100vh); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-100vh); opacity: 0; }
+            0% { transform: translateY(110vh); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-10vh); opacity: 0; }
         }
     </style>
 </head>
@@ -88,34 +97,35 @@
 
     <div class="portal-container">
         <button class="side" onclick="goTo('english')">
-            <div class="visual-circle"></div>
+            <div class="visual-circle">
+                <img src="download.jpg" alt="Graduation Image">
+            </div>
             <div class="btn-title">ENGLISH</div>
             <div class="sub-text">Shemss Okour</div>
         </button>
 
-        <button class="side" onclick="goTo('arabic')" style="border:none;">
-            <div class="visual-circle" style="background-image: url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=500');"></div>
+        <button class="side" onclick="goTo('arabic')">
+            <div class="visual-circle">
+                <img src="download.jpg" alt="Graduation Image">
+            </div>
             <div class="btn-title ar">العربية</div>
             <div class="sub-text">شمس عكور</div>
         </button>
     </div>
 
     <script>
-        // Create random sparkles
-        for (let i = 0; i < 50; i++) {
+        // Generate Particles
+        for (let i = 0; i < 60; i++) {
             let sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             sparkle.style.left = Math.random() * 100 + 'vw';
-            sparkle.style.animationDelay = Math.random() * 5 + 's';
+            sparkle.style.animationDelay = (Math.random() * 6) + 's';
             document.body.appendChild(sparkle);
         }
 
         function goTo(lang) {
-            // This will look for english.html or arabic.html
-            // Make sure to name your files exactly these names
             window.location.href = lang + ".html";
         }
     </script>
 </body>
-
 </html>
