@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shemss Okour | Graduation 2025</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Amiri:wght@700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Amiri:wght@700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #d4af37;
             --dark: #050505;
+            --soft-gold: #fcf6ba;
         }
 
         body, html {
@@ -18,10 +19,35 @@
             overflow: hidden;
         }
 
+        /* Animated Background Gradients */
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
             z-index: -1;
+        }
+
+        /* Moving Gold Light Beam */
+        .bg-beam {
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(212, 175, 55, 0.05) 20deg, transparent 40deg);
+            animation: rotateBeam 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotateBeam {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header Countdown Section */
+        .header-info {
+            position: absolute; top: 40px; width: 100%; text-align: center;
+            z-index: 10; pointer-events: none;
+        }
+
+        .countdown {
+            font-family: 'Cinzel Decorative', serif; font-size: 1.2rem;
+            color: var(--gold); letter-spacing: 4px; margin-top: 10px;
         }
 
         .portal-container {
@@ -38,90 +64,117 @@
             background: none;
         }
 
-        .side:hover { flex: 1.5; background: rgba(212, 175, 55, 0.05); }
+        .side:hover { flex: 1.3; background: rgba(212, 175, 55, 0.03); }
 
+        /* Vertical Divider */
         .side:first-child::after {
-            content: ''; position: absolute; height: 60%; width: 1px;
+            content: ''; position: absolute; height: 40%; width: 1px;
             background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-            right: 0; opacity: 0.3;
+            right: 0; opacity: 0.2;
         }
 
-        /* The Box for your Uploaded Image */
+        /* Circular Image with Glow */
         .visual-circle {
-            width: 220px; height: 220px; border-radius: 50%;
-            border: 2px solid var(--gold); margin-bottom: 30px;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
+            width: 200px; height: 200px; border-radius: 50%;
+            border: 1px solid var(--gold); margin-bottom: 30px;
+            background: url('download.jpg') center/cover;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+            filter: grayscale(0.5) contrast(1.1);
             transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            display: flex; align-items: center; justify-content: center;
         }
 
-        .visual-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* This is the "filling" - it clips the image to a perfect circle */
-            filter: sepia(0.4) brightness(0.8);
-            transition: 0.6s ease;
-        }
-
-        .side:hover .visual-circle img {
-            filter: sepia(0) brightness(1);
-            transform: scale(1.1);
+        .side:hover .visual-circle { 
+            transform: scale(1.1) rotate(3deg); 
+            filter: grayscale(0) contrast(1); 
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.4); 
         }
 
         .btn-title {
-            font-family: 'Cinzel Decorative', serif; font-size: 2rem;
-            color: var(--gold); letter-spacing: 5px; margin-bottom: 10px;
+            font-family: 'Cinzel Decorative', serif; font-size: 2.2rem;
+            color: var(--gold); letter-spacing: 8px; margin-bottom: 5px;
+            transition: 0.4s;
         }
 
         .btn-title.ar { font-family: 'Amiri', serif; letter-spacing: 0; font-size: 2.8rem; }
 
-        .sub-text { font-size: 0.8rem; letter-spacing: 4px; opacity: 0.6; text-transform: uppercase; }
+        .side:hover .btn-title { text-shadow: 0 0 15px var(--gold); }
 
+        .sub-text { font-size: 0.9rem; letter-spacing: 5px; opacity: 0.5; text-transform: uppercase; }
+
+        /* Floating Sparkles */
         .sparkle {
-            position: absolute; width: 1.5px; height: 1.5px; background: var(--gold);
+            position: absolute; width: 2px; height: 2px; background: var(--gold);
             border-radius: 50%; pointer-events: none; opacity: 0;
-            animation: rise 6s infinite ease-in;
+            animation: rise 7s infinite ease-in;
         }
 
         @keyframes rise {
             0% { transform: translateY(110vh); opacity: 0; }
-            50% { opacity: 0.6; }
+            50% { opacity: 0.7; }
             100% { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        /* Bottom Footer Decoration */
+        .footer-line {
+            position: absolute; bottom: 30px; width: 100%; text-align: center;
+            opacity: 0.4; font-size: 0.7rem; letter-spacing: 5px;
         }
     </style>
 </head>
 <body>
 
     <div class="bg-gradient"></div>
+    <div class="bg-beam"></div>
+
+    <div class="header-info">
+        <div style="letter-spacing: 10px; font-size: 0.8rem; opacity: 0.6;">GRADUATION 2025</div>
+        <div class="countdown" id="timer">COUNTING DOWN...</div>
+    </div>
 
     <div class="portal-container">
         <button class="side" onclick="goTo('english')">
-            <div class="visual-circle">
-                <img src="download.jpg" alt="Graduation Image">
-            </div>
+            <div class="visual-circle"></div>
             <div class="btn-title">ENGLISH</div>
             <div class="sub-text">Shemss Okour</div>
         </button>
 
         <button class="side" onclick="goTo('arabic')">
-            <div class="visual-circle">
-                <img src="download.jpg" alt="Graduation Image">
-            </div>
+            <div class="visual-circle"></div>
             <div class="btn-title ar">العربية</div>
             <div class="sub-text">شمس عكور</div>
         </button>
     </div>
 
+    <div class="footer-line">EST. 2025 • SYDNEY, AUSTRALIA</div>
+
     <script>
-        // Generate Particles
+        // Create random sparkles
         for (let i = 0; i < 60; i++) {
             let sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             sparkle.style.left = Math.random() * 100 + 'vw';
-            sparkle.style.animationDelay = (Math.random() * 6) + 's';
+            sparkle.style.animationDelay = Math.random() * 7 + 's';
+            sparkle.style.opacity = Math.random();
             document.body.appendChild(sparkle);
         }
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const target = new Date('December 21, 2025 18:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            if (diff > 0) {
+                document.getElementById('timer').innerHTML = `${days}D : ${hours}H UNTIL THE CELEBRATION`;
+            } else {
+                document.getElementById('timer').innerHTML = "THE CELEBRATION IS HERE";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
         function goTo(lang) {
             window.location.href = lang + ".html";
